@@ -15,24 +15,40 @@
     <div class="form-subtitle">Cotizador interno</div>
   </div>
 
+  <div class="field">
+    <label>Nombre del cliente</label>
+    <input type="text" id="nombre-cliente" placeholder="Ej: Juan Pérez" oninput="actualizarCliente()">
+  </div>
+
   <div class="tabs">
     <button class="tab active" onclick="setTab('nueva')">Joya nueva</button>
-    <button class="tab" onclick="setTab('arreglo')">Arreglo</button>
+    <button class="tab" onclick="setTab('compostura')">Composturas</button>
   </div>
 
   <div id="panel-nueva">
     <div class="sec-label">Producto</div>
     <div class="field">
       <label>Tipo de producto</label>
-      <select id="tipo-producto" onchange="calcular()">
+      <select id="tipo-producto" onchange="toggleCustomVal(); calcular()">
         <option value="0">Seleccionar...</option>
+        <option value="35000">Anillo cintillo</option>
+        <option value="40000">Anillo medio cintillo</option>
         <option value="45000">Anillo solitario</option>
-        <option value="38000">Anillo alianza</option>
-        <option value="55000">Collar colgante</option>
-        <option value="42000">Aros</option>
-        <option value="60000">Pulsera</option>
-        <option value="70000">Conjunto nupcial</option>
+        <option value="42000">Aros adulto</option>
+        <option value="25000">Aros infantil</option>
+        <option value="30000">Cadena</option>
+        <option value="55000">Collar</option>
+        <option value="35000">Colgante</option>
+        <option value="40000">Pulsera cadena</option>
+        <option value="45000">Pulsera esclava</option>
+        <option value="28000">Argolla</option>
+        <option value="50000">Par de argollas</option>
+        <option value="custom">Custom</option>
       </select>
+    </div>
+    <div class="field hidden" id="custom-value-wrap">
+      <label>Valor personalizado ($)</label>
+      <input type="number" id="custom-valor" value="0" min="0" oninput="calcular()">
     </div>
     <div class="field">
       <label>Descripción para el cliente</label>
@@ -52,18 +68,70 @@
     </div>
 
     <div class="sec-label">Piedras</div>
-    <div class="row3">
-      <div class="field">
-        <label>Cantidad</label>
-        <input type="number" id="cant-piedras" value="1" min="0" oninput="calcular()">
+
+    <div class="piedra-grupo">
+      <div class="piedra-grupo-label">Piedra 1</div>
+      <div class="row4">
+        <div class="field">
+          <label>Cantidad</label>
+          <input type="number" id="cant-piedras-1" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <input type="text" id="tipo-piedra-1" placeholder="Ej: Diamante" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>$/piedra</label>
+          <input type="number" id="precio-piedra-1" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Engaste/u</label>
+          <input type="number" id="precio-engaste-1" value="0" min="0" oninput="calcular()">
+        </div>
       </div>
-      <div class="field">
-        <label>$/piedra</label>
-        <input type="number" id="precio-piedra" value="80000" min="0" oninput="calcular()">
+    </div>
+
+    <div class="piedra-grupo">
+      <div class="piedra-grupo-label">Piedra 2</div>
+      <div class="row4">
+        <div class="field">
+          <label>Cantidad</label>
+          <input type="number" id="cant-piedras-2" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <input type="text" id="tipo-piedra-2" placeholder="Ej: Zafiro" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>$/piedra</label>
+          <input type="number" id="precio-piedra-2" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Engaste/u</label>
+          <input type="number" id="precio-engaste-2" value="0" min="0" oninput="calcular()">
+        </div>
       </div>
-      <div class="field">
-        <label>Engaste/u</label>
-        <input type="number" id="precio-engaste" value="8000" min="0" oninput="calcular()">
+    </div>
+
+    <div class="piedra-grupo">
+      <div class="piedra-grupo-label">Piedra 3</div>
+      <div class="row4">
+        <div class="field">
+          <label>Cantidad</label>
+          <input type="number" id="cant-piedras-3" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <input type="text" id="tipo-piedra-3" placeholder="Ej: Esmeralda" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>$/piedra</label>
+          <input type="number" id="precio-piedra-3" value="0" min="0" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>Engaste/u</label>
+          <input type="number" id="precio-engaste-3" value="0" min="0" oninput="calcular()">
+        </div>
       </div>
     </div>
 
@@ -78,31 +146,91 @@
         <input type="number" id="merma" value="5" min="0" max="100" oninput="calcular()">
       </div>
     </div>
+
+    <div class="sec-label">Descuento</div>
+    <div class="field">
+      <label>% Descuento</label>
+      <input type="number" id="descuento" value="0" min="0" max="100" oninput="calcular()">
+    </div>
   </div>
 
-  <div id="panel-arreglo" class="hidden">
-    <div class="sec-label">Tipo de arreglo</div>
-    <div class="field">
-      <label>Arreglo</label>
-      <select id="tipo-arreglo" onchange="calcularArreglo()">
-        <option value="0">Seleccionar...</option>
-        <option value="15000">Cambio de tamaño anillo</option>
-        <option value="18000">Soldadura de pieza</option>
-        <option value="22000">Engaste de piedra caída</option>
-        <option value="25000">Pulido y lustre completo</option>
-        <option value="30000">Reparación de broche</option>
-        <option value="35000">Reengaste con nueva montura</option>
-        <option value="40000">Limpieza ultrasónica + retoque</option>
-        <option value="45000">Transformación de pieza</option>
-        <option value="20000">Barniz antialérgico</option>
-        <option value="28000">Chapado en oro</option>
-      </select>
+  <div id="panel-compostura" class="hidden">
+    <div class="sec-label">Trabajos</div>
+
+    <div class="compostura-grupo">
+      <div class="compostura-grupo-label">Trabajo 1</div>
+      <div class="field">
+        <label>Tipo de compostura</label>
+        <select id="tipo-compostura-1" onchange="toggleCustomComp(1); calcularArreglo()">
+          <option value="0">Seleccionar...</option>
+          <option value="15000">Cambio de tamaño</option>
+          <option value="18000">Soldadura</option>
+          <option value="22000">Engaste de piedra(s)</option>
+          <option value="25000">Limpieza ultrasónica y pulido</option>
+          <option value="30000">Reparación de broche</option>
+          <option value="35000">Reengaste con nueva montura</option>
+          <option value="20000">Baño de rodio</option>
+          <option value="transformacion">Transformación</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="field hidden" id="comp-custom-wrap-1">
+        <label>Valor personalizado ($)</label>
+        <input type="number" id="comp-custom-valor-1" value="0" min="0" oninput="calcularArreglo()">
+      </div>
     </div>
+
+    <div class="compostura-grupo">
+      <div class="compostura-grupo-label">Trabajo 2</div>
+      <div class="field">
+        <label>Tipo de compostura</label>
+        <select id="tipo-compostura-2" onchange="toggleCustomComp(2); calcularArreglo()">
+          <option value="0">Seleccionar...</option>
+          <option value="15000">Cambio de tamaño</option>
+          <option value="18000">Soldadura</option>
+          <option value="22000">Engaste de piedra(s)</option>
+          <option value="25000">Limpieza ultrasónica y pulido</option>
+          <option value="30000">Reparación de broche</option>
+          <option value="35000">Reengaste con nueva montura</option>
+          <option value="20000">Baño de rodio</option>
+          <option value="transformacion">Transformación</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="field hidden" id="comp-custom-wrap-2">
+        <label>Valor personalizado ($)</label>
+        <input type="number" id="comp-custom-valor-2" value="0" min="0" oninput="calcularArreglo()">
+      </div>
+    </div>
+
+    <div class="compostura-grupo">
+      <div class="compostura-grupo-label">Trabajo 3</div>
+      <div class="field">
+        <label>Tipo de compostura</label>
+        <select id="tipo-compostura-3" onchange="toggleCustomComp(3); calcularArreglo()">
+          <option value="0">Seleccionar...</option>
+          <option value="15000">Cambio de tamaño</option>
+          <option value="18000">Soldadura</option>
+          <option value="22000">Engaste de piedra(s)</option>
+          <option value="25000">Limpieza ultrasónica y pulido</option>
+          <option value="30000">Reparación de broche</option>
+          <option value="35000">Reengaste con nueva montura</option>
+          <option value="20000">Baño de rodio</option>
+          <option value="transformacion">Transformación</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="field hidden" id="comp-custom-wrap-3">
+        <label>Valor personalizado ($)</label>
+        <input type="number" id="comp-custom-valor-3" value="0" min="0" oninput="calcularArreglo()">
+      </div>
+    </div>
+
     <div class="field">
       <label>Descripción para el cliente</label>
       <textarea id="descripcion-arreglo" placeholder="Ej: Reducción de talla 8 a talla 6 en anillo de oro 18k." oninput="actualizarDesc()"></textarea>
     </div>
-    <div class="row2">
+    <div class="row3">
       <div class="field">
         <label>Complejidad</label>
         <select id="complejidad" onchange="calcularArreglo()">
@@ -117,6 +245,10 @@
       <div class="field">
         <label>Metal a agregar (g)</label>
         <input type="number" id="metal-arreglo" value="0" min="0" step="0.5" oninput="calcularArreglo()">
+      </div>
+      <div class="field">
+        <label>Valor metal ($/g)</label>
+        <input type="number" id="valor-metal-arreglo" value="3800" min="0" oninput="calcularArreglo()">
       </div>
     </div>
 
@@ -161,6 +293,7 @@
       <div class="cot-meta">
         <div class="cot-meta-tipo" id="cot-tipo-label">Cotización · Joya nueva</div>
         <div class="cot-meta-fecha" id="cot-fecha"></div>
+        <div class="cot-meta-cliente" id="cot-cliente"></div>
       </div>
     </div>
 

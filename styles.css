@@ -74,6 +74,7 @@ body {
 
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.row4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
 
 .total-strip {
   background: rgba(201,168,76,0.1); border: 1px solid var(--dorado-oscuro);
@@ -83,6 +84,27 @@ body {
 
 .total-lbl { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dorado); }
 .total-val { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--dorado-claro); }
+
+.piedra-grupo {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.piedra-grupo-label, .compostura-grupo-label {
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dorado-oscuro); margin-bottom: 6px;
+}
+#custom-value-wrap { margin-top: -0.4rem; }
+
+.compostura-grupo {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
 
 .foto-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
 .foto-row label { font-size: 10px; letter-spacing: 0.1em; color: var(--gris); text-transform: uppercase; cursor: pointer; }
@@ -146,6 +168,7 @@ body {
 }
 
 .cot-meta-fecha { font-size: 11px; color: #555; letter-spacing: 0.05em; }
+.cot-meta-cliente { font-size: 12px; color: var(--dorado-claro); letter-spacing: 0.05em; margin-top: 4px; }
 
 .cot-body { padding: 50px 80px; display: flex; gap: 60px; }
 .cot-body-left { flex: 1; }
