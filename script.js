@@ -102,18 +102,24 @@ window.addEventListener('resize', escalarPreview);
 window.addEventListener('load', escalarPreview);
 
 let tabActual = 'nueva';
-let fotoDataUrl = null;
+let fotoDataUrl = [null, null, null];
 
 function setTab(t) {
   tabActual = t;
-  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('active', (i===0&&t==='nueva')||(i===1&&t==='compostura')));
+  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('active',
+    (i===0&&t==='nueva')||(i===1&&t==='compostura')||(i===2&&t==='generico')));
   document.getElementById('panel-nueva').classList.toggle('hidden', t !== 'nueva');
   document.getElementById('panel-compostura').classList.toggle('hidden', t !== 'compostura');
-  document.getElementById('cot-tipo-label').textContent = t === 'nueva' ? 'Cotización · Joya nueva' : 'Cotización · Composturas';
+  document.getElementById('panel-generico').classList.toggle('hidden', t !== 'generico');
+  document.getElementById('cot-tipo-label').textContent = t === 'nueva' ? 'Cotización · Joya nueva'
+    : t === 'compostura' ? 'Cotización · Composturas' : 'Cotización';
   document.getElementById('cot-row-piedras').style.display = t === 'nueva' ? '' : 'none';
-  document.getElementById('cot-fab-label').textContent = t === 'nueva' ? 'Fabricación' : 'Compostura(s)';
+  document.getElementById('cot-fab-label').textContent = t === 'nueva' ? 'Fabricación'
+    : t === 'compostura' ? 'Compostura(s)' : 'Producto';
   actualizarDesc();
-  if (t === 'nueva') { toggleCustomVal(); calcular(); } else calcularArreglo();
+  if (t === 'nueva') { toggleCustomVal(); calcular(); }
+  else if (t === 'compostura') calcularArreglo();
+  else calcularGenerico();
 }
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString('es-CL'); }
@@ -192,22 +198,36 @@ function calcularArreglo() {
   actualizarPreview(fab, metal, 0, margenTotal, total);
 }
 
+function calcularGenerico() {
+  const precio = parseFloat(document.getElementById('precio-directo').value) || 0;
+  const desc = (parseFloat(document.getElementById('descuento-generico').value) || 0) / 100;
+  const total = precio * (1 - desc);
+  document.getElementById('total-display').textContent = total > 0 ? fmt(total) : '$—';
+  document.getElementById('cot-fab-val').textContent = total > 0 ? fmt(precio) : '—';
+  document.getElementById('cot-metal-val').textContent = '—';
+  document.getElementById('cot-piedras-val').textContent = '—';
+  document.getElementById('cot-margen-val').textContent = desc > 0 ? fmt(precio * desc) : '—';
+  document.getElementById('cot-total-val').textContent = total > 0 ? fmt(total) : '$—';
+}
+
 function actualizarCliente() {
   document.getElementById('cot-cliente').textContent = document.getElementById('nombre-cliente').value || '';
 }
 
 function actualizarDesc() {
-  const id = tabActual === 'nueva' ? 'descripcion-nueva' : 'descripcion-arreglo';
+  const id = tabActual === 'nueva' ? 'descripcion-nueva'
+    : tabActual === 'compostura' ? 'descripcion-arreglo'
+    : 'descripcion-generico';
   const val = document.getElementById(id).value;
   document.getElementById('cot-desc').textContent = val || 'Ingresa la descripción del producto para el cliente.';
 }
 
-function toggleFoto() {
-  const checked = document.getElementById('incluir-foto').checked;
-  const ph = document.getElementById('cot-foto-placeholder');
-  const img = document.getElementById('cot-foto');
+function toggleFoto(n) {
+  const checked = document.getElementById('incluir-foto-' + n).checked;
+  const ph = document.getElementById('cot-foto-placeholder-' + n);
+  const img = document.getElementById('cot-foto-' + n);
   if (checked) {
-    if (fotoDataUrl) { img.classList.remove('hidden'); ph.classList.add('hidden'); }
+    if (fotoDataUrl[n - 1]) { img.classList.remove('hidden'); ph.classList.add('hidden'); }
     else { ph.classList.remove('hidden'); img.classList.add('hidden'); }
   } else {
     img.classList.add('hidden'); ph.classList.add('hidden');
@@ -215,17 +235,17 @@ function toggleFoto() {
   setTimeout(escalarPreview, 50);
 }
 
-function cargarFoto(e) {
+function cargarFoto(e, n) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    fotoDataUrl = ev.target.result;
-    const img = document.getElementById('cot-foto');
-    img.src = fotoDataUrl;
-    document.getElementById('incluir-foto').checked = true;
+    fotoDataUrl[n - 1] = ev.target.result;
+    const img = document.getElementById('cot-foto-' + n);
+    img.src = fotoDataUrl[n - 1];
+    document.getElementById('incluir-foto-' + n).checked = true;
     img.classList.remove('hidden');
-    document.getElementById('cot-foto-placeholder').classList.add('hidden');
+    document.getElementById('cot-foto-placeholder-' + n).classList.add('hidden');
     setTimeout(escalarPreview, 100);
   };
   reader.readAsDataURL(file);

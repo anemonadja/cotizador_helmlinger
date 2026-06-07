@@ -45,12 +45,15 @@ body {
 .tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; }
 
 .tab {
-  flex: 1; padding: 9px 6px; border: 1px solid #2a2a2a;
+  padding: 9px 6px; border: 1px solid #2a2a2a;
   background: transparent; color: var(--gris);
   font-family: 'Montserrat', sans-serif; font-size: 11px;
   letter-spacing: 0.1em; text-transform: uppercase;
   cursor: pointer; transition: all 0.2s;
 }
+.tab:nth-child(1) { width: 45%; }
+.tab:nth-child(2) { width: 45%; }
+.tab:nth-child(3) { width: 10%; min-width: 32px; }
 
 .tab.active { border-color: var(--dorado); color: var(--dorado); background: rgba(201,168,76,0.07); }
 
@@ -109,7 +112,7 @@ body {
 .foto-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
 .foto-row label { font-size: 10px; letter-spacing: 0.1em; color: var(--gris); text-transform: uppercase; cursor: pointer; }
 .foto-row input[type=checkbox] { accent-color: var(--dorado); width: 16px; height: 16px; cursor: pointer; }
-#foto-upload { display: none; }
+#foto-upload, #foto-upload-1, #foto-upload-2, #foto-upload-3 { display: none; }
 
 .foto-btn {
   font-family: 'Montserrat', sans-serif; font-size: 10px;
@@ -211,16 +214,19 @@ body {
   letter-spacing: -0.01em;
 }
 
+.cot-foto-slot { margin-bottom: 8px; }
+.cot-foto-slot:last-child { margin-bottom: 0; }
+
 .cot-foto {
-  width: 340px; height: 340px; object-fit: cover;
+  width: 340px; height: 108px; object-fit: cover;
   display: block; background: #1a1a1a;
 }
 
 .cot-foto-placeholder {
-  width: 340px; height: 340px; background: #141414;
+  width: 340px; height: 108px; background: #141414;
   border: 1px solid #2a2a2a; display: flex;
   align-items: center; justify-content: center;
-  font-size: 11px; letter-spacing: 0.15em;
+  font-size: 10px; letter-spacing: 0.15em;
   text-transform: uppercase; color: #333;
 }
 
