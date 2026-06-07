@@ -361,4 +361,4 @@ function descargarJPG() {
 }
 
 cargarPrecios();
-calcular();
+setTab('nueva');
