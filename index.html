@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cotizador Helmlinger Atelier</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -264,6 +264,12 @@
         <input type="number" id="merma-a" value="5" min="0" max="100" oninput="calcularArreglo()">
       </div>
     </div>
+
+    <div class="sec-label">Descuento</div>
+    <div class="field">
+      <label>% Descuento</label>
+      <input type="number" id="descuento-arreglo" value="0" min="0" max="100" oninput="calcularArreglo()">
+    </div>
   </div>
 
   <div id="panel-generico" class="hidden">
@@ -336,7 +342,7 @@
           <span id="cot-fab-label">Fabricación</span>
           <span id="cot-fab-val">—</span>
         </div>
-        <div class="cot-row">
+        <div class="cot-row" id="cot-row-metal">
           <span>Metal</span>
           <span id="cot-metal-val">—</span>
         </div>
@@ -344,10 +350,24 @@
           <span>Piedras + engaste</span>
           <span id="cot-piedras-val">—</span>
         </div>
-        <div class="cot-row">
+        <div class="cot-row" id="cot-row-margen">
           <span>Margen + merma</span>
           <span id="cot-margen-val">—</span>
         </div>
+
+        <div class="cot-row hidden" id="cot-row-piedras-nueva">
+          <span>Piedras</span>
+          <span id="cot-piedras-nueva-val">—</span>
+        </div>
+        <div class="cot-row hidden" id="cot-row-comp-detalle">
+          <span>Compostura(s)</span>
+          <span id="cot-comp-detalle-val">—</span>
+        </div>
+        <div class="cot-row hidden" id="cot-row-descuento">
+          <span>Descuento</span>
+          <span id="cot-descuento-val">—</span>
+        </div>
+
         <div class="cot-total">
           <span class="cot-total-lbl">Total</span>
           <span class="cot-total-val" id="cot-total-val">$—</span>
@@ -362,12 +382,14 @@
     </div>
 
     <div class="cot-footer">
-      <div class="cot-footer-left">Esta cotización tiene validez de 15 días hábiles · Precios en pesos chilenos</div>
-      <div class="cot-footer-icons">
-        <a href="https://helmlinger.cl/" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
-        <a href="https://www.instagram.com/atelierhelmlinger/" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
-        <a href="https://www.facebook.com/atelierhelmlinger" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-        <a href="https://youtu.be/g1wupJzDAEs?si=3ys-D_TFGkACK4ht" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><polygon points="10 8 16 12 10 16"/></svg></a>
+      <div class="cot-footer-col">Precios en pesos chilenos</div>
+      <div class="cot-footer-col">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        www.helmlinger.cl
+      </div>
+      <div class="cot-footer-col">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+        /atelierhelmlinger
       </div>
     </div>
     <div class="linea-dorada"></div>

@@ -3,7 +3,7 @@
 body {
   background: #111;
   color: #f5f0e8;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Kantumruy Pro', sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -25,7 +25,7 @@ body {
 .precios-logo { width: 200px; filter: brightness(0.9); margin-bottom: 1rem; }
 
 .precios-header h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Kantumruy Pro', sans-serif;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.2em;
@@ -70,7 +70,7 @@ body {
   background: #1e1e1e;
   border: 1px solid #2a2a2a;
   color: #f5f0e8;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Kantumruy Pro', sans-serif;
   font-size: 13px;
   padding: 8px 10px;
   outline: none;
@@ -87,7 +87,7 @@ body {
 }
 
 .btn-guardar, .btn-restaurar, .btn-volver {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Kantumruy Pro', sans-serif;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.2em;

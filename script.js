@@ -113,7 +113,17 @@ function setTab(t) {
   document.getElementById('panel-generico').classList.toggle('hidden', t !== 'generico');
   document.getElementById('cot-tipo-label').textContent = t === 'nueva' ? 'Cotización · Joya nueva'
     : t === 'compostura' ? 'Cotización · Composturas' : 'Cotización';
-  document.getElementById('cot-row-piedras').style.display = t === 'nueva' ? '' : 'none';
+
+  const isNueva = t === 'nueva';
+  const isComp = t === 'compostura';
+  document.getElementById('cot-row-fab').style.display = 'none';
+  document.getElementById('cot-row-metal').style.display = 'none';
+  document.getElementById('cot-row-piedras').style.display = 'none';
+  document.getElementById('cot-row-margen').style.display = 'none';
+  document.getElementById('cot-row-piedras-nueva').style.display = isNueva ? '' : 'none';
+  document.getElementById('cot-row-comp-detalle').style.display = isComp ? '' : 'none';
+  document.getElementById('cot-row-descuento').style.display = '';
+
   document.getElementById('cot-fab-label').textContent = t === 'nueva' ? 'Fabricación'
     : t === 'compostura' ? 'Compostura(s)' : 'Producto';
   actualizarDesc();
@@ -144,17 +154,27 @@ function calcular() {
   const fab = sel.value === 'custom'
     ? (parseFloat(document.getElementById('custom-valor').value) || 0)
     : (parseInt(sel.value) || 0);
-  if (!fab && sel.value !== 'custom') { document.getElementById('total-display').textContent = '$—'; return; }
+  if (!fab && sel.value !== 'custom') {
+    document.getElementById('total-display').textContent = '$—';
+    document.getElementById('cot-row-piedras-nueva').style.display = 'none';
+    document.getElementById('cot-row-descuento').style.display = 'none';
+    return;
+  }
   const g = parseFloat(document.getElementById('gramos-metal').value) || 0;
   const pg = parseFloat(document.getElementById('precio-metal').value) || 0;
   const metal = g * pg;
 
   let piedras = 0;
+  const piedrasDetalle = [];
   for (let i = 1; i <= 3; i++) {
     const cp = parseInt(document.getElementById('cant-piedras-' + i).value) || 0;
+    const tp = document.getElementById('tipo-piedra-' + i).value.trim();
     const pp = parseFloat(document.getElementById('precio-piedra-' + i).value) || 0;
     const pe = parseFloat(document.getElementById('precio-engaste-' + i).value) || 0;
     piedras += cp * (pp + pe);
+    if (cp > 0 && tp) {
+      piedrasDetalle.push(cp + ' ' + tp);
+    }
   }
 
   const margen = (parseFloat(document.getElementById('margen').value) || 0) / 100;
@@ -164,6 +184,27 @@ function calcular() {
   const margenTotal = base * (margen + merma);
   const subtotal = base + margenTotal;
   const total = subtotal * (1 - descuento);
+
+  const pRow = document.getElementById('cot-row-piedras-nueva');
+  const pVal = document.getElementById('cot-piedras-nueva-val');
+  if (piedrasDetalle.length > 0) {
+    pVal.textContent = piedrasDetalle.join(', ');
+    pRow.style.display = '';
+  } else {
+    pVal.textContent = '—';
+    pRow.style.display = 'none';
+  }
+
+  const dRow = document.getElementById('cot-row-descuento');
+  const dVal = document.getElementById('cot-descuento-val');
+  if (descuento > 0) {
+    dVal.textContent = Math.round(descuento * 100) + '%';
+    dRow.style.display = '';
+  } else {
+    dVal.textContent = '—';
+    dRow.style.display = 'none';
+  }
+
   actualizarPreview(fab, metal, piedras, margenTotal, total);
 }
 
@@ -175,26 +216,57 @@ function toggleCustomComp(n) {
 
 function calcularArreglo() {
   let fab = 0;
+  const compLabels = [];
   for (let i = 1; i <= 3; i++) {
     const sel = document.getElementById('tipo-compostura-' + i);
     const val = sel.value;
+    if (val !== '0') {
+      compLabels.push(sel.selectedOptions[0].text);
+    }
     if (val === 'transformacion' || val === 'custom') {
       fab += parseFloat(document.getElementById('comp-custom-valor-' + i).value) || 0;
     } else {
       fab += parseInt(val) || 0;
     }
   }
-  if (!fab) { document.getElementById('total-display').textContent = '$—'; return; }
+  if (!fab) {
+    document.getElementById('total-display').textContent = '$—';
+    document.getElementById('cot-row-descuento').style.display = 'none';
+    document.getElementById('cot-row-comp-detalle').style.display = 'none';
+    return;
+  }
   const comp = parseFloat(document.getElementById('complejidad').value) || 1;
   const gm = parseFloat(document.getElementById('metal-arreglo').value) || 0;
   const margen = (parseFloat(document.getElementById('margen-a').value) || 0) / 100;
   const merma = (parseFloat(document.getElementById('merma-a').value) || 0) / 100;
+  const descuento = (parseFloat(document.getElementById('descuento-arreglo').value) || 0) / 100;
   const base = fab * comp;
   const vm = parseFloat(document.getElementById('valor-metal-arreglo').value) || 0;
   const metal = gm * vm;
   const subtotal = base + metal;
   const margenTotal = subtotal * (margen + merma);
-  const total = subtotal + margenTotal;
+  const total = (subtotal + margenTotal) * (1 - descuento);
+
+  const cRow = document.getElementById('cot-row-comp-detalle');
+  const cVal = document.getElementById('cot-comp-detalle-val');
+  if (compLabels.length > 0) {
+    cVal.textContent = compLabels.join(', ');
+    cRow.style.display = '';
+  } else {
+    cVal.textContent = '—';
+    cRow.style.display = 'none';
+  }
+
+  const dRow = document.getElementById('cot-row-descuento');
+  const dVal = document.getElementById('cot-descuento-val');
+  if (descuento > 0) {
+    dVal.textContent = Math.round(descuento * 100) + '%';
+    dRow.style.display = '';
+  } else {
+    dVal.textContent = '—';
+    dRow.style.display = 'none';
+  }
+
   actualizarPreview(fab, metal, 0, margenTotal, total);
 }
 
@@ -203,11 +275,17 @@ function calcularGenerico() {
   const desc = (parseFloat(document.getElementById('descuento-generico').value) || 0) / 100;
   const total = precio * (1 - desc);
   document.getElementById('total-display').textContent = total > 0 ? fmt(total) : '$—';
-  document.getElementById('cot-fab-val').textContent = total > 0 ? fmt(precio) : '—';
-  document.getElementById('cot-metal-val').textContent = '—';
-  document.getElementById('cot-piedras-val').textContent = '—';
-  document.getElementById('cot-margen-val').textContent = desc > 0 ? fmt(precio * desc) : '—';
   document.getElementById('cot-total-val').textContent = total > 0 ? fmt(total) : '$—';
+
+  const dRow = document.getElementById('cot-row-descuento');
+  const dVal = document.getElementById('cot-descuento-val');
+  if (desc > 0) {
+    dVal.textContent = Math.round(desc * 100) + '%';
+    dRow.style.display = '';
+  } else {
+    dVal.textContent = '—';
+    dRow.style.display = 'none';
+  }
 }
 
 function actualizarCliente() {
