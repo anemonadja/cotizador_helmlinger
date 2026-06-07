@@ -93,7 +93,7 @@ function escalarPreview() {
   const wrap = document.getElementById('preview-wrap');
   const cot = document.getElementById('cotizacion');
   const disponible = wrap.clientWidth - 64;
-  const escala = Math.min(1, disponible / 1080);
+  const escala = Math.min(1, disponible / 800);
   cot.style.transform = `scale(${escala})`;
   cot.style.marginBottom = `-${(1 - escala) * cot.offsetHeight}px`;
 }
@@ -224,14 +224,13 @@ function actualizarDesc() {
 
 function toggleFoto(n) {
   const checked = document.getElementById('incluir-foto-' + n).checked;
-  const ph = document.getElementById('cot-foto-placeholder-' + n);
   const img = document.getElementById('cot-foto-' + n);
-  if (checked) {
-    if (fotoDataUrl[n - 1]) { img.classList.remove('hidden'); ph.classList.add('hidden'); }
-    else { ph.classList.remove('hidden'); img.classList.add('hidden'); }
+  if (checked && fotoDataUrl[n - 1]) {
+    img.classList.remove('hidden');
   } else {
-    img.classList.add('hidden'); ph.classList.add('hidden');
+    img.classList.add('hidden');
   }
+  mostrarFotosSection();
   setTimeout(escalarPreview, 50);
 }
 
@@ -245,10 +244,18 @@ function cargarFoto(e, n) {
     img.src = fotoDataUrl[n - 1];
     document.getElementById('incluir-foto-' + n).checked = true;
     img.classList.remove('hidden');
-    document.getElementById('cot-foto-placeholder-' + n).classList.add('hidden');
+    mostrarFotosSection();
     setTimeout(escalarPreview, 100);
   };
   reader.readAsDataURL(file);
+}
+
+function mostrarFotosSection() {
+  const section = document.getElementById('cot-fotos-section');
+  const anyVisible = [1,2,3].some(i => {
+    return document.getElementById('incluir-foto-' + i).checked && fotoDataUrl[i - 1];
+  });
+  section.classList.toggle('hidden', !anyVisible);
 }
 
 function descargarJPG() {
@@ -262,7 +269,7 @@ function descargarJPG() {
     useCORS: true,
     allowTaint: true,
     backgroundColor: '#0a0a0a',
-    width: 1080,
+    width: 800,
     logging: false
   }).then(canvas => {
     const link = document.createElement('a');
