@@ -1,0 +1,134 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #111;
+  color: #f5f0e8;
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.precios-wrap {
+  width: 720px;
+  max-width: 100%;
+}
+
+.precios-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.precios-logo { width: 200px; filter: brightness(0.9); margin-bottom: 1rem; }
+
+.precios-header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a84c;
+}
+
+.precios-desc {
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+.sec {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9a7a2e;
+  margin: 1.75rem 0 0.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #1e1e1e;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #888;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.field input {
+  width: 100%;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  color: #f5f0e8;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  padding: 8px 10px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.field input:focus { border-color: #9a7a2e; }
+
+.precios-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-guardar, .btn-restaurar, .btn-volver {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-guardar {
+  background: #c9a84c;
+  color: #0a0a0a;
+}
+
+.btn-guardar:hover { background: #e2c97e; }
+
+.btn-restaurar {
+  background: transparent;
+  color: #888;
+  border: 1px solid #2a2a2a;
+}
+
+.btn-restaurar:hover { border-color: #c9a84c; color: #c9a84c; }
+
+.btn-volver {
+  background: transparent;
+  color: #9a7a2e;
+  border: 1px solid #9a7a2e;
+  margin-left: auto;
+}
+
+.btn-volver:hover { background: rgba(201,168,76,0.1); }
+
+.precios-msg {
+  margin-top: 1rem;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  min-height: 1.5em;
+}
+
+.precios-msg.ok { color: #e2c97e; }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precios — Helmlinger Atelier</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="precios.css">
+</head>
+<body>
+<div class="precios-wrap">
+  <div class="precios-header">
+    <img src="assets/img/Helmlinger_Logo_2026_b.png" alt="Helmlinger Atelier" class="precios-logo">
+    <h1>Panel de precios</h1>
+    <p class="precios-desc">Asigna los precios base para los productos y servicios.</p>
+  </div>
+
+  <form id="form-precios">
+    <div class="sec">Productos — Joya nueva</div>
+    <div class="grid2">
+      <div class="field"><label>Anillo cintillo</label><input type="number" id="p-anillo-cintillo" min="0"></div>
+      <div class="field"><label>Anillo medio cintillo</label><input type="number" id="p-anillo-medio-cintillo" min="0"></div>
+      <div class="field"><label>Anillo solitario</label><input type="number" id="p-anillo-solitario" min="0"></div>
+      <div class="field"><label>Aros adulto</label><input type="number" id="p-aros-adulto" min="0"></div>
+      <div class="field"><label>Aros infantil</label><input type="number" id="p-aros-infantil" min="0"></div>
+      <div class="field"><label>Cadena</label><input type="number" id="p-cadena" min="0"></div>
+      <div class="field"><label>Collar</label><input type="number" id="p-collar" min="0"></div>
+      <div class="field"><label>Colgante</label><input type="number" id="p-colgante" min="0"></div>
+      <div class="field"><label>Pulsera cadena</label><input type="number" id="p-pulsera-cadena" min="0"></div>
+      <div class="field"><label>Pulsera esclava</label><input type="number" id="p-pulsera-esclava" min="0"></div>
+      <div class="field"><label>Argolla</label><input type="number" id="p-argolla" min="0"></div>
+      <div class="field"><label>Par de argollas</label><input type="number" id="p-par-argollas" min="0"></div>
+    </div>
+
+    <div class="sec">Composturas</div>
+    <div class="grid2">
+      <div class="field"><label>Cambio de tamaño</label><input type="number" id="p-cambio-tamano" min="0"></div>
+      <div class="field"><label>Soldadura</label><input type="number" id="p-soldadura" min="0"></div>
+      <div class="field"><label>Engaste de piedra(s)</label><input type="number" id="p-engaste-piedras" min="0"></div>
+      <div class="field"><label>Limpieza ultrasónica y pulido</label><input type="number" id="p-limpieza" min="0"></div>
+      <div class="field"><label>Reparación de broche</label><input type="number" id="p-reparacion-broche" min="0"></div>
+      <div class="field"><label>Reengaste con nueva montura</label><input type="number" id="p-reengaste" min="0"></div>
+      <div class="field"><label>Baño de rodio</label><input type="number" id="p-bano-rodio" min="0"></div>
+    </div>
+
+    <div class="sec">Valores por defecto</div>
+    <div class="grid2">
+      <div class="field"><label>Precio metal ($/g)</label><input type="number" id="p-precio-metal" min="0"></div>
+      <div class="field"><label>Valor metal arreglo ($/g)</label><input type="number" id="p-valor-metal-arreglo" min="0"></div>
+      <div class="field"><label>Margen joyería %</label><input type="number" id="p-margen" min="0" max="100"></div>
+      <div class="field"><label>Merma %</label><input type="number" id="p-merma" min="0" max="100"></div>
+    </div>
+
+    <div class="precios-actions">
+      <button type="button" class="btn-guardar" onclick="guardarPrecios()">Guardar precios</button>
+      <button type="button" class="btn-restaurar" onclick="restaurarDefault()">Restaurar valores originales</button>
+      <a href="index.html" class="btn-volver">Volver al cotizador</a>
+    </div>
+    <div id="precios-msg" class="precios-msg"></div>
+  </form>
+</div>
+
+<script>
+const DEFAULTS = {
+  'p-anillo-cintillo': 35000,
+  'p-anillo-medio-cintillo': 40000,
+  'p-anillo-solitario': 45000,
+  'p-aros-adulto': 42000,
+  'p-aros-infantil': 25000,
+  'p-cadena': 30000,
+  'p-collar': 55000,
+  'p-colgante': 35000,
+  'p-pulsera-cadena': 40000,
+  'p-pulsera-esclava': 45000,
+  'p-argolla': 28000,
+  'p-par-argollas': 50000,
+  'p-cambio-tamano': 15000,
+  'p-soldadura': 18000,
+  'p-engaste-piedras': 22000,
+  'p-limpieza': 25000,
+  'p-reparacion-broche': 30000,
+  'p-reengaste': 35000,
+  'p-bano-rodio': 20000,
+  'p-precio-metal': 3800,
+  'p-valor-metal-arreglo': 3800,
+  'p-margen': 35,
+  'p-merma': 5
+};
+
+function cargarPrecios() {
+  const saved = localStorage.getItem('helmlinger_precios');
+  const data = saved ? JSON.parse(saved) : DEFAULTS;
+  for (const [id, val] of Object.entries(data)) {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  }
+}
+
+function guardarPrecios() {
+  const data = {};
+  for (const id of Object.keys(DEFAULTS)) {
+    const el = document.getElementById(id);
+    data[id] = el ? (parseFloat(el.value) || 0) : 0;
+  }
+  localStorage.setItem('helmlinger_precios', JSON.stringify(data));
+  const msg = document.getElementById('precios-msg');
+  msg.textContent = 'Precios guardados correctamente.';
+  msg.className = 'precios-msg ok';
+  setTimeout(() => { msg.textContent = ''; msg.className = 'precios-msg'; }, 3000);
+}
+
+function restaurarDefault() {
+  if (!confirm('¿Restaurar todos los valores originales?')) return;
+  localStorage.removeItem('helmlinger_precios');
+  cargarPrecios();
+  const msg = document.getElementById('precios-msg');
+  msg.textContent = 'Valores originales restaurados.';
+  msg.className = 'precios-msg ok';
+  setTimeout(() => { msg.textContent = ''; msg.className = 'precios-msg'; }, 3000);
+}
+
+cargarPrecios();
+</script>
+</body>
+</html>
