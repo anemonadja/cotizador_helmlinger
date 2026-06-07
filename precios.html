@@ -8,7 +8,18 @@
 <link rel="stylesheet" href="precios.css">
 </head>
 <body>
-<div class="precios-wrap">
+<div id="login-screen">
+  <div class="login-box">
+    <img src="assets/img/Helmlinger_Logo_2026_b.png" alt="Helmlinger Atelier" class="precios-logo">
+    <h1>Acceso restringido</h1>
+    <p class="precios-desc">Ingresa la contraseña para acceder al panel de precios.</p>
+    <input type="password" id="password-input" placeholder="Contraseña" autofocus>
+    <button id="login-btn">Ingresar</button>
+    <p id="login-error" class="hidden" style="color:#c94c4c;margin-top:8px;font-size:11px;">Contraseña incorrecta</p>
+    <a href="index.html" class="btn-volver" style="margin-top:1rem;">Volver al cotizador</a>
+  </div>
+</div>
+<div class="precios-wrap" id="precios-wrap" style="display:none">
   <div class="precios-header">
     <img src="assets/img/Helmlinger_Logo_2026_b.png" alt="Helmlinger Atelier" class="precios-logo">
     <h1>Panel de precios</h1>
@@ -119,7 +130,24 @@ function restaurarDefault() {
   setTimeout(() => { msg.textContent = ''; msg.className = 'precios-msg'; }, 3000);
 }
 
-cargarPrecios();
+const PASSWORD = 'hl';
+
+function checkPassword() {
+  const input = document.getElementById('password-input');
+  const error = document.getElementById('login-error');
+  if (input.value === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('precios-wrap').style.display = 'block';
+    cargarPrecios();
+  } else {
+    error.classList.remove('hidden');
+  }
+}
+
+document.getElementById('login-btn').addEventListener('click', checkPassword);
+document.getElementById('password-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPassword();
+});
 </script>
 </body>
 </html>
